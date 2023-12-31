@@ -28,21 +28,22 @@ const years = [
 ];
 
 export const YearSelect = () => {
-  const [activeYear, setActiveYear] = useState<number>(0);
   const [selectedYear, setSelectedYear] = useState<
     number | string | null | any
-  >(Number(years[0]));
-  const [startIndex, setStartIndex] = useState<number>(0);
-  const [endIndex, setEndIndex] = useState<number>(5);
+  >(Number(years[0])); // Set the selected year here
 
-  const start = useRef(0);
-  const end = useRef(5);
+  const start = useRef(0); //Start Count
+  const end = useRef(5); // End Count
 
   console.log("selectedYear", selectedYear);
   console.log("start", start.current);
   console.log("end", end.current);
 
   const handlePrevious = () => {
+    if (selectedYear <= Number(years[0])) {
+      setSelectedYear(Number(years[0]));
+      return;
+    }
     setSelectedYear((prev: any) => prev - 1);
     const index = years.indexOf(selectedYear.toString());
     console.log("selectedYearIndex", index);
@@ -54,6 +55,11 @@ export const YearSelect = () => {
   };
 
   const handleNext = () => {
+    if (selectedYear >= years[years.length - 1]) {
+      setSelectedYear(Number(years[years.length - 1]));
+      return;
+    }
+
     setSelectedYear((prev: any) => prev + 1);
 
     const index = years.indexOf(selectedYear.toString());
@@ -63,14 +69,6 @@ export const YearSelect = () => {
       start.current = start.current + 1;
       end.current = end.current + 1;
     }
-
-    // setActiveYear((prev) => prev + 1);
-    // if (activeYear === end.current) {
-    //   //   setStartIndex((prev) => prev + 1);
-    //   //   setEndIndex((prev) => prev + 1);
-    //   start.current = start.current + 1;
-    //   end.current = end.current + 1;
-    // }
   };
 
   return (
